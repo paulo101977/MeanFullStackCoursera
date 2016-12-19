@@ -1,77 +1,78 @@
-'use strict';
-
-/**
- * Module dependencies.
- */
-var _ = require('lodash'),
-  defaultAssets = require('./config/assets/default'),
-  testAssets = require('./config/assets/test'),
-  testConfig = require('./config/env/test'),
-  karmaReporters = ['progress'];
-
-if (testConfig.coverage) {
-  karmaReporters.push('coverage');
-}
-
 // Karma configuration
-module.exports = function (karmaConfig) {
-  karmaConfig.set({
-    // Frameworks to use
+// http://karma-runner.github.io/0.13/config/configuration-file.html
+/*eslint-env node*/
+
+import makeWebpackConfig from './webpack.make';
+
+module.exports = function(config) {
+  config.set({
+    // base path, that will be used to resolve files and exclude
+    basePath: '',
+
+    // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['jasmine'],
 
+    // list of files / patterns to load in the browser
+    files: ['spec.js'],
+
     preprocessors: {
-      'modules/*/client/views/**/*.html': ['ng-html2js'],
-      'modules/core/client/app/config.js': ['coverage'],
-      'modules/core/client/app/init.js': ['coverage'],
-      'modules/*/client/*.js': ['coverage'],
-      'modules/*/client/config/*.js': ['coverage'],
-      'modules/*/client/controllers/*.js': ['coverage'],
-      'modules/*/client/directives/*.js': ['coverage'],
-      'modules/*/client/services/*.js': ['coverage']
+      'spec.js': ['webpack']
     },
 
-    ngHtml2JsPreprocessor: {
-      moduleName: 'mean',
+    webpack: makeWebpackConfig({ TEST: true }),
 
-      cacheIdFromPath: function (filepath) {
-        return filepath;
-      },
+    webpackMiddleware: {
+      // webpack-dev-middleware configuration
+      // i. e.
+      noInfo: true
     },
 
-    // List of files / patterns to load in the browser
-    files: _.union(defaultAssets.client.lib.js, defaultAssets.client.lib.tests, defaultAssets.client.js, testAssets.tests.client, defaultAssets.client.views),
-
-    // Test results reporter to use
-    // Possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: karmaReporters,
-
-    // Configure the coverage reporter
     coverageReporter: {
-      dir : 'coverage/client',
-      reporters: [
-        // Reporters not supporting the `file` property
-        { type: 'html', subdir: 'report-html' },
-        { type: 'lcov', subdir: 'report-lcov' },
-        // Output coverage to console
-        { type: 'text' }
-      ],
-      instrumenterOptions: {
-        istanbul: { noCompact: true }
-      }
+      reporters: [{
+        type: 'html', //produces a html document after code is run
+        subdir: 'client'
+      }, {
+        type: 'json',
+        subdir: '.',
+        file: 'client-coverage.json'
+      }],
+      dir: 'coverage/' //path to created html doc
     },
 
-    // Web server port
-    port: 9876,
+    plugins: [
+      require('karma-chrome-launcher'),
+      require('karma-coverage'),
+      require('karma-firefox-launcher'),
 
-    // Enable / disable colors in the output (reporters and logs)
-    colors: true,
+      require('karma-jasmine'),
+      require('karma-spec-reporter'),
+      require('karma-phantomjs-launcher'),
+      require('karma-script-launcher'),
+      require('karma-webpack'),
+      require('karma-sourcemap-loader')
+    ],
 
-    // Level of logging
-    // Possible values: karmaConfig.LOG_DISABLE || karmaConfig.LOG_ERROR || karmaConfig.LOG_WARN || karmaConfig.LOG_INFO || karmaConfig.LOG_DEBUG
-    logLevel: karmaConfig.LOG_INFO,
+    // list of files / patterns to exclude
+    exclude: [],
 
-    // Enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+    // web server port
+    port: 9000,
+
+    // level of logging
+    // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
+    logLevel: config.LOG_INFO,
+
+    // reporter types:
+    // - dots
+    // - progress (default)
+    // - spec (karma-spec-reporter)
+    // - junit
+    // - growl
+    // - coverage
+    reporters: ['spec', 'coverage'],
+
+    // enable / disable watching file and executing tests whenever any file changes
+    autoWatch: false,
 
     // Start these browsers, currently available:
     // - Chrome
@@ -83,11 +84,8 @@ module.exports = function (karmaConfig) {
     // - IE (only Windows)
     browsers: ['PhantomJS'],
 
-    // If browser does not capture in given timeout [ms], kill it
-    captureTimeout: 60000,
-
     // Continuous Integration mode
-    // If true, it capture browsers, run tests and exit
-    singleRun: true
+    // if true, it capture browsers, run tests and exit
+    singleRun: false
   });
 };
