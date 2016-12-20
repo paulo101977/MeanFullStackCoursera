@@ -1,0 +1,15 @@
+.container-fluid{
+    background-color: #337ab7;
+}
+
+.navbar-brand{
+    color: white !important;
+}
+
+.navbar-brand:hover{
+    color: #222 !important;
+}
+
+.nav>li.active{
+    background-color: #337ab7;
+}

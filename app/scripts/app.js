@@ -9,29 +9,46 @@
  * Main module of the application.
  */
 angular
-  .module('meanFullStackCourseraApp', [
+  .module('app', [
     //'ngAnimate',
     //'ngAria',
     //'ngCookies',
     //'ngMessages',
     //'ngResource',
-    'ngRoute',
+    'ui.router',
     //'ngSanitize',
     //'ngTouch'
   ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
+  .config(function($stateProvider, $urlRouterProvider) {
+      $stateProvider
+        .state('land', {
+          url: '/land',
+          //templateUrl: 'views/land.html',
+          views: {
+              'Content': {
+                templateUrl: 'views/land.html',
+                controller: 'LandCtrl'
+              }
+          }
+        })
+        .state('home', {
+          url: '/home',
+          //templateUrl: 'views/land.html',
+          views: {
+              'Header': {
+                templateUrl: 'views/header.html',
+                controller: 'HeaderCtrl'
+              },
+              'Content': {
+                templateUrl: 'views/home.html',
+                controller: 'HomeCtrl'
+              },
+              'Footer': {
+                templateUrl: 'views/footer.html',
+                controller: 'FooterCtrl'
+              }
+          }
+        })
+      
+        $urlRouterProvider.otherwise('/land');
+})

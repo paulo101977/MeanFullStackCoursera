@@ -1,0 +1,46 @@
+
+.video_land_background{
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+
+.jumbotron{
+    position: absolute;
+    height: 40vh;
+    width: 40vw;
+    top: calc(50vh - 20vh);
+    left: calc(50vw - 20vw);
+    text-align: -webkit-center;
+    border: solid #337ab7 2px;
+    border-radius: 5px;
+}
+
+.disable_in_large{
+    position: absolute;
+    height: 40vh;
+    width: 40vw;
+    top: calc(50vh - 20vh);
+    left: calc(50vw - 20vw);
+    text-align: -webkit-center;
+    border: solid #337ab7 2px;
+    border-radius: 5px;
+    background-color: aliceblue;
+}
+
+
+
+.btn{
+    width: 10vw;
+}
+
+.disable_in_large{
+    display: none;
+}
+
+
+@media screen and (max-width:767px){
+    .disable_in_large{
+        display: block !important;
+    }
+}
