@@ -6,9 +6,14 @@
     @import "header";
 }
 
+.home{
+   @import "home"; 
+}
+
 .land{
    position: relative;
 }
+
 
 ::-webkit-scrollbar { 
     display: none; 

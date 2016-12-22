@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('app')
+app
   .controller('MainCtrl',[ '$scope' , function ($scope){
     
   }]);

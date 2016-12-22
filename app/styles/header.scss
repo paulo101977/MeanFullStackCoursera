@@ -13,3 +13,26 @@
 .nav>li.active{
     background-color: #337ab7;
 }
+
+.nav>li > a:link,
+.nav>li > a:visited
+{
+    color: white !important;
+}
+
+.nav>li > a:hover
+{
+    color: #555 !important;
+}
+
+.navbar-btn:hover{
+   color: #222 !important;
+   font-weight: bold;
+   font-size: 16px;
+}
+
+.navbar-brand:hover{
+   color: #222 !important;
+   font-weight: bold;
+   font-size: 20px;
+}

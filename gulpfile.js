@@ -8,6 +8,7 @@ var lazypipe = require('lazypipe');
 var rimraf = require('rimraf');
 var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
+var sass = require('gulp-sass');
 
 var yeoman = {
   app: require('./bower.json').appPath || 'app',
@@ -16,7 +17,7 @@ var yeoman = {
 
 var paths = {
   scripts: [yeoman.app + '/scripts/**/*.js'],
-  styles: [yeoman.app + '/styles/**/*.scss'],
+  styles: [yeoman.app + '/styles/*.scss'],
   test: ['test/spec/**/*.js'],
   testRequire: [
     yeoman.app + '/bower_components/angular/angular.js',
@@ -112,10 +113,23 @@ gulp.task('watch', function () {
   gulp.watch('bower.json', ['bower']);
 });
 
+/* include sass compiler */
+gulp.task('sass', function () {
+  return gulp.src('./app/styles/main.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./app/styles/'));
+});
+
+gulp.task('sass:watch', function () {
+  gulp.watch('./app/styles/*.scss', ['sass']);
+});
+
 gulp.task('serve', function (cb) {
   runSequence('clean:tmp',
+    'sass',
     ['lint:scripts'],
     ['start:client'],
+    ['sass:watch'],
     'watch', cb);
 });
 

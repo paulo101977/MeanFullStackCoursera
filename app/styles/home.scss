@@ -1,0 +1,36 @@
+$size: 16vw;
+
+
+.thumbnail > img{
+    width: 100%;
+    height: 100%;
+}
+
+.thumbnail{
+    margin-bottom: 0px;
+}
+
+.panel-body{
+    padding: 0px;
+}
+
+.play_icon_container{
+    position: absolute;
+    width: $size;
+    height: $size;
+    display: block;
+    top: 25%;
+    left: 25%;
+}
+
+.thumb_icon{
+    width: inherit;
+    height: inherit;
+    background-image: url(../images/icon.svg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.videos_container{
+    position: relative;
+}

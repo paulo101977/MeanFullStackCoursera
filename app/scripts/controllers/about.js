@@ -7,7 +7,7 @@
  * # AboutCtrl
  * Controller of the meanFullStackCourseraApp
  */
-angular.module('app')
+app
   .controller('AboutCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',

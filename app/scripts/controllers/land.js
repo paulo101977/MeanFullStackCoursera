@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('app')
+app
   .controller('LandCtrl',[ '$scope' , '$state' , function ($scope , $state) {
       
       $scope.changeToHome = function(){

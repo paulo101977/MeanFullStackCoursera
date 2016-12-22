@@ -8,18 +8,26 @@
  *
  * Main module of the application.
  */
-angular
+var app = angular
   .module('app', [
     //'ngAnimate',
     //'ngAria',
     //'ngCookies',
     //'ngMessages',
-    //'ngResource',
+    'ngResource',
     'ui.router',
     //'ngSanitize',
     //'ngTouch'
   ])
   .config(function($stateProvider, $urlRouterProvider) {
+      
+      //$qProvider.errorOnUnhandledRejections(false);
+      //angular.module('ng').$qProvider.errorOnUnhandledRejections(false);
+      //var $injector2 = window.angular.injector(['ng']);
+      //$injector2.invoke(['$qProvider', function($qProvider) {
+      //      $qProvider.errorOnUnhandledRejections(false);
+      //}]);
+      
       $stateProvider
         .state('land', {
           url: '/land',
@@ -33,22 +41,27 @@ angular
         })
         .state('home', {
           url: '/home',
-          //templateUrl: 'views/land.html',
           views: {
               'Header': {
                 templateUrl: 'views/header.html',
-                controller: 'HeaderCtrl'
+                //controller: 'HeaderCtrl'
               },
               'Content': {
                 templateUrl: 'views/home.html',
-                controller: 'HomeCtrl'
+                //controller: 'HomeCtrl',
               },
               'Footer': {
                 templateUrl: 'views/footer.html',
-                controller: 'FooterCtrl'
+                //controller: 'FooterCtrl'
               }
           }
         })
       
-        $urlRouterProvider.otherwise('/land');
+        //$urlRouterProvider.otherwise('/land');
 })
+
+/* correct the error on inject ui.router */
+/*app.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}]);*/
+
