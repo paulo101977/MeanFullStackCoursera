@@ -16,6 +16,7 @@ var app = angular
     //'ngMessages',
     'ngResource',
     'ui.router',
+    'ui.bootstrap'
     //'ngSanitize',
     //'ngTouch'
   ])
@@ -44,7 +45,7 @@ var app = angular
           views: {
               'Header': {
                 templateUrl: 'views/header.html',
-                //controller: 'HeaderCtrl'
+                controller: 'HeaderCtrl'
               },
               'Content': {
                 templateUrl: 'views/home.html',
@@ -57,7 +58,7 @@ var app = angular
           }
         })
       
-        //$urlRouterProvider.otherwise('/land');
+        $urlRouterProvider.otherwise('/land');
 })
 
 /* correct the error on inject ui.router */
