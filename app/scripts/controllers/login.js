@@ -1,10 +1,10 @@
 app
   .controller('LoginCTRL', ['$scope' , '$uibModalInstance' , function ($scope , $uibModalInstance) {
     $scope.submit = function(){
-        $uibModalInstance.close();
+        $uibModalInstance.dismiss();
     }
     
     $scope.cancel = function(){
-        $uibModalInstance.close();
+        $uibModalInstance.dismiss();
     }
   }]);

@@ -2,18 +2,34 @@
 
 
 app
-.controller('HomeCtrl',[ '$scope' , '$resource' , function ($scope , $resource) {
+.controller('HomeCtrl',[ '$rootScope' , '$scope' , '$resource' , '$state' , 
+    function ($rootScope , $scope , $resource , $state) {
 //.controller('HomeCtrl',[ '$scope' , 'homeService' , function ($scope , homeService) {
       
       $scope.videos = [];
+    
+      //watch changes on searchText
+      $rootScope.$watch('searchText', function(newValue, oldValue) {
+        $scope.searchText = newValue;
+      });
+        
+      function changePath(id){
+          $state.go('video', {id: id})
+      }
+    
+      $scope.setCurrentVideo = function(event , video){
+          event.preventDefault();
+          
+          $rootScope.currentVideo = video;
+          
+          changePath(video.id);
+      }
       
 
       function getAllVideos(){
           var promise = $resource('http://localhost:3000/api_videos/');
           var entry = promise.query(function(){
               $scope.videos = entry;
-              
-              console.log(parseInt(Math.random()*3));
               
               $scope.videos.forEach(function(video){
                   var path = video.url.split('?v=');

@@ -57,7 +57,23 @@ var app = angular
               }
           }
         })
-      
+        .state('video', {
+          url: '/video/:id',
+          views: {
+              'Header': {
+                templateUrl: 'views/header.html',
+                controller: 'HeaderCtrl'
+              },
+              'Content': {
+                templateUrl: 'views/video.html',
+                //controller: 'HomeCtrl',
+              },
+              'Footer': {
+                templateUrl: 'views/footer.html',
+                //controller: 'FooterCtrl'
+              }
+          }
+        })
         $urlRouterProvider.otherwise('/land');
 })
 

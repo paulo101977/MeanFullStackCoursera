@@ -1,11 +1,11 @@
 <div class="row home" ng-controller="HomeCtrl">
-    <div class="col-md-4 videos_container" ng-repeat="video in videos">
+    <div class="col-md-4 videos_container" ng-repeat="video in videos | filter:searchText">
         <div class="panel panel-primary">
           <div class="panel-heading">
             <h3 class="panel-title">{{video.title}}</h3>
           </div>
           <div class="panel-body">
-              <a href="#" class="thumbnail">
+              <a ng-click="setCurrentVideo($event , video)"  class="thumbnail">
                 <img src="{{video.thumb}}" alt="{{video.title}}">
                 <div class="play_icon_container">
                     <img src="../images/icon.svg" class="thumb_icon">

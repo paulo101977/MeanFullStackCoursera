@@ -2,10 +2,18 @@
 
 
 app
-  .controller('HeaderCtrl',[ '$scope', '$uibModal' , function ($scope , $uibModal) {
+  .controller('HeaderCtrl',[ '$rootScope' , '$scope', '$uibModal' , function ($rootScope , $scope , $uibModal) {
       
       
       var _self = this;
+      
+      //watch changes on searchText
+      $scope.$watch('searchText', function(newValue, oldValue) {
+        //apply the changes to rootScope
+        $rootScope.searchText = newValue;
+      });
+      
+      
       $scope.menuClick = function(event){
           event.preventDefault();
       }
