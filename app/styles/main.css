@@ -94,5 +94,28 @@
 .land {
   position: relative; }
 
+.video .row {
+  display: flex; }
+
+.video .content {
+  flex: 1; }
+
+.video .panel {
+  height: 100%; }
+
+@media screen and (max-width: 767px) {
+  .video .row {
+    flex-direction: column; }
+  .video .content {
+    min-height: 25vh;
+    max-height: 25vh; }
+  .video .embed-responsive-item {
+    padding: 15px; }
+  .video .embed-responsive,
+  .video .panel {
+    position: initial;
+    min-height: 25vh;
+    max-height: 25vh; } }
+
 ::-webkit-scrollbar {
   display: none; }

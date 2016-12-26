@@ -1,4 +1,4 @@
-'use strict';
+
 
 
 app
@@ -31,6 +31,28 @@ app
               backdrop: 'static',
               keyboard: false,
               controller: 'LoginCTRL',
+              //controllerAs: '$ctrl',
+              size: 'modal-lg',
+              /*resolve: {
+                items: function () {
+                  return $ctrl.items;
+                }
+              }*/
+            });
+      }
+      
+      $scope.addVideo = function(event){
+          event.preventDefault();
+          
+          console.log('clicked');
+          
+          var modalInstance = $uibModal.open({
+              animation: true,
+              ariaLabelledBy: 'modal-title',
+              ariaDescribedBy: 'modal-body',
+              templateUrl: '../views/addvideo.html',
+              keyboard: false,
+              controller: 'AddVideoCTRL',
               //controllerAs: '$ctrl',
               size: 'modal-lg',
               /*resolve: {

@@ -1,0 +1,33 @@
+.row{
+    display: flex;
+}
+
+.content{
+    flex: 1;
+}
+
+.panel{
+    height: 100%;
+}
+
+@media screen and (max-width:767px){
+    .row{
+        flex-direction: column;
+    }
+    
+    .content{
+        min-height: 25vh;
+        max-height: 25vh;
+    }
+    
+    .embed-responsive-item{
+        padding: 15px;
+    }
+    
+    .embed-responsive,
+    .panel{
+        position: initial;
+        min-height: 25vh;
+        max-height: 25vh;
+    }
+}

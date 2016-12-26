@@ -1,5 +1,4 @@
 
-console.log("acessing homeService");
 
 app
 .service('homeService', [ '$scope' , '$resource' , function ($scope , $resource) {

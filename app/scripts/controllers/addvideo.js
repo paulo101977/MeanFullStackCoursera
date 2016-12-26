@@ -1,7 +1,5 @@
-
-
 app
-  .controller('LoginCTRL', ['$scope' , '$uibModalInstance' , function ($scope , $uibModalInstance) {
+  .controller('AddVideoCTRL', ['$scope' , '$uibModalInstance' , function ($scope , $uibModalInstance) {
     $scope.submit = function(){
         $uibModalInstance.dismiss();
     }

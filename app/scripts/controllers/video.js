@@ -1,3 +1,5 @@
+
+
 app
   .controller('VideoCtrl',[ '$rootScope' ,'$scope' , '$sce' , '$stateParams' , '$resource' , 
     function ($rootScope  , $scope , $sce , $stateParams , $resource) {
@@ -26,7 +28,7 @@ app
                     var path = video.url.split('?v=')[1];
 
                     $scope.video = video;
-a
+                    
                     $scope.path = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + path) ;
                 });
             }
