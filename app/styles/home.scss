@@ -1,5 +1,5 @@
 $size: 16vw;
-
+$next_size : 30%;
 
 .thumbnail > img{
     width: 100%;
@@ -33,4 +33,22 @@ $size: 16vw;
 
 .videos_container{
     position: relative;
+}
+
+
+.fade.ng-leave {
+  transition:0.5s linear all;
+  opacity:1;
+}
+.fade.ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+@media screen and (max-width: 991px){
+    .play_icon_container {
+        width: 40vw;
+        height: 40vw;
+        top: $next_size;
+        left: $next_size;
+    }
 }

@@ -10,7 +10,7 @@
  */
 var app = angular
   .module('app', [
-    //'ngAnimate',
+    'ngAnimate',
     //'ngAria',
     //'ngCookies',
     //'ngMessages',

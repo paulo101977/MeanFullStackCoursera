@@ -2,7 +2,8 @@
 
 
 app
-  .controller('HeaderCtrl',[ '$rootScope' , '$scope', '$uibModal' , function ($rootScope , $scope , $uibModal) {
+  .controller('HeaderCtrl',[ '$rootScope' , '$scope', '$uibModal' , '$location' ,
+                            function ($rootScope , $scope , $uibModal , $location) {
       
       
       var _self = this;
@@ -21,7 +22,6 @@ app
       $scope.login = function(event){
           event.preventDefault();
           
-          console.log('clicked');
           
           var modalInstance = $uibModal.open({
               animation: true,
@@ -61,6 +61,10 @@ app
                 }
               }*/
             });
+      }
+      
+      $scope.show = function(){
+         return  $location.path() == '/home'
       }
       
 }]);
