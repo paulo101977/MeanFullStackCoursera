@@ -9,6 +9,7 @@ var rimraf = require('rimraf');
 var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
+var nodemon = require('gulp-nodemon'); //node exec
 
 var yeoman = {
   app: require('./bower.json').appPath || 'app',
@@ -75,12 +76,16 @@ gulp.task('start:client', ['start:server', 'styles'], function () {
 });
 
 gulp.task('start:server', function() {
-  $.connect.server({
+  /*$.connect.server({
     root: [yeoman.app, '.tmp'],
     livereload: true,
     // Change this to '0.0.0.0' to access the server from outside.
     port: 9000
-  });
+  });*/
+    //try nodemon to start node server
+  nodemon({
+    script: 'app.js'
+  })
 });
 
 gulp.task('start:server:test', function() {
@@ -125,7 +130,8 @@ gulp.task('sass:watch', function () {
 });
 
 gulp.task('serve', function (cb) {
-  runSequence('clean:tmp',
+  runSequence(
+    'clean:tmp',
     'sass',
     ['lint:scripts'],
     ['start:client'],
