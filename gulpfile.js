@@ -10,6 +10,9 @@ var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
 var nodemon = require('gulp-nodemon'); //node exec
+//var jsonServer = require('gulp-json-server'); //json-server for gulp
+//var exec = require('gulp-exec'); //for exec cmd commands
+var exec = require('child_process').exec;
 
 var yeoman = {
   app: require('./bower.json').appPath || 'app',
@@ -75,6 +78,11 @@ gulp.task('start:client', ['start:server', 'styles'], function () {
   //openURL('http://localhost:9000');
 });
 
+//exec json-server cmd to watch db.json fake RESTful
+gulp.task('json-server' , function(){
+    exec('json-server --watch ./json-server/db.json');
+} )
+
 gulp.task('start:server', function() {
   /*$.connect.server({
     root: [yeoman.app, '.tmp'],
@@ -82,7 +90,9 @@ gulp.task('start:server', function() {
     // Change this to '0.0.0.0' to access the server from outside.
     port: 9000
   });*/
-    //try nodemon to start node server
+ 
+    
+  //run node app.js cmd  
   nodemon({
     script: 'app.js'
   })
@@ -133,6 +143,7 @@ gulp.task('serve', function (cb) {
   runSequence(
     'clean:tmp',
     'sass',
+    'json-server',
     ['lint:scripts'],
     ['start:client'],
     ['sass:watch'],
