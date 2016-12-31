@@ -2,6 +2,18 @@ app
   .controller('AddVideoCTRL', ['$rootScope' ,'$scope' , '$uibModalInstance' , '$resource' , 
     function ($rootScope , $scope , $uibModalInstance , $resource) {
         
+        $scope.isValidYoutubeUrl = function(url){
+            if(!url) return false;
+            
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[2].length == 11) {
+                return true;
+            }
+            
+            return false;
+        }
+        
         //save the video instance and update view
         $scope.submit = function(form){
             $uibModalInstance.dismiss();

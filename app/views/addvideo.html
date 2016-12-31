@@ -1,19 +1,35 @@
 <div class="panel">
     <div class="panel-body">
-        <form name="form">
+        <form novalidate name="form">
           <div class="form-group">
             <label for="title">Title</label>
-            <input ng-model="formVideo.title" type="text" class="form-control" id="title" aria-describedby="title" placeholder="Enter title">
+            <input ng-model="formVideo.title" type="text" name="title"
+                   class="form-control" id="title" aria-describedby="title" placeholder="Enter title" required>
+            <span ng-show="form.title.$dirty && form.title.$error.required" class="text-danger">
+                Title required!
+              </span>
           </div>
           <div class="form-group">
             <label for="url">Url</label>
-            <input ng-model="formVideo.url" type="text" class="form-control" id="url" placeholder="E.g. https://www.youtube.com/watch?v=YJXILi3gud4">
+            <input ng-model="formVideo.url" type="text" name="url"
+                   class="form-control" id="url" placeholder="E.g. https://www.youtube.com/watch?v=YJXILi3gud4">
+            <span ng-show="form.url.$dirty
+                           && !isValidYoutubeUrl(formVideo.url)"class="text-danger">Invalid Url!</span>
           </div>
           <div class="form-group">
             <label for="description">Description</label>
-            <input ng-model="formVideo.description" type="text" class="form-control" id="description" placeholder="Type your description">
+            <input ng-model="formVideo.description" name="description"
+                   type="text" class="form-control" id="description" placeholder="Type your description" required>
+            <span ng-show="form.description.$dirty
+                           && form.description.$error.required" class="text-danger">
+                Description required!
+              </span>
           </div>
-          <button ng-click="submit(formVideo)" class="btn btn-primary">Submit</button>
+          <button ng-click="submit(formVideo)" 
+                  ng-disabled="form.$invalid || !isValidYoutubeUrl(formVideo.url)" 
+                  class="btn btn-primary">
+                    Submit
+            </button>
           <button ng-click="cancel()" class="btn btn-danger">Cancel</button>
         </form>
     </div>
