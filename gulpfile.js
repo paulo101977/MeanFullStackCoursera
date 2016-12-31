@@ -98,6 +98,15 @@ gulp.task('start:server', function() {
   })
 });
 
+//include run mongod
+gulp.task('start:mongod' , function(){
+    exec('mongod --dbpath ./data/db' , function (err, stdout, stderr){
+        if(err) console.log(err)
+        
+        console.log('exec mongod --dbpath ./data/db')
+    })
+})
+
 gulp.task('start:server:test', function() {
   $.connect.server({
     root: ['test', yeoman.app, '.tmp'],
@@ -145,6 +154,7 @@ gulp.task('serve', function (cb) {
     'sass',
     'json-server',
     ['lint:scripts'],
+    ['start:mongod'], //start mongod
     ['start:client'],
     ['sass:watch'],
     'watch', cb);
