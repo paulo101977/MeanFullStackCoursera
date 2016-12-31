@@ -1,8 +1,5 @@
 var mongoose = require('mongoose');
 
-//connect to videos db
-mongoose.connect('mongodb://localhost/videos');
-
 
 //use models:
 
@@ -13,4 +10,9 @@ var Video = mongoose.model('Video', VideoSchema);
 
 module.exports = {
     Video: Video,
+    mongoose: mongoose,
+    connect: function(){
+        mongoose.connect('mongodb://localhost/videos');
+    },
+    connection: mongoose.connection,
 }

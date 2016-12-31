@@ -3,6 +3,37 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
+var passport = require('passport');
+var session = require('express-session') ;
+var RedisStore = require('connect-redis')(session);
+var MongoStore = require('connect-mongo')(session);
+var MongooseInstance = require('./server/mongoose');
+var morgan       = require('morgan');
+var cookieParser = require('cookie-parser');
+var flash    = require('connect-flash');
+
+
+//connect to videos db
+MongooseInstance.connect();
+
+//the passport config
+app.use(session({  
+  store: new MongoStore({ mongooseConnection: MongooseInstance.connection }),
+  secret: 'test',
+  resave: false,
+  saveUninitialized: false
+}))
+app.use(passport.initialize())  
+app.use(passport.session())
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+require('./server/Strategy/strategy')(passport);
+
+
+// set up our express application
+app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
+
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -14,6 +45,10 @@ app.use(bodyParser.json())
 app.use(express.static('public'));
 
 //routes
+//login
+app.use('/login',require('./server/routes/login.js'))
+
+//video
 app.use('/api_videos',require('./server/routes/videos.js'))
 
 
