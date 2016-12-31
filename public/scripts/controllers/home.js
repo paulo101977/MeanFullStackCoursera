@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 
 app
@@ -42,7 +42,7 @@ app
 
       //get all videos
       function getAllVideos(){
-          var promise = $resource('http://localhost:3000/api_videos/');
+          var promise = $resource('http://localhost:8080/api_videos/');
           var entry = promise.query(function(){
               $scope.videos = entry;
               

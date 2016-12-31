@@ -23,7 +23,7 @@ app
             }
             else { //retrive from database
                 var id = $stateParams.id;
-                var Video = $resource('http://localhost:3000/api_videos/:id', {id:'@id'});
+                var Video = $resource('http://localhost:8080/api_videos/:id', {id:'@id'});
                 var video = Video.get({id:id}, function() {
                     var path = video.url.split('?v=')[1];
 
