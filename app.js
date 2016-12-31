@@ -7,18 +7,18 @@ var passport = require('passport');
 var session = require('express-session') ;
 var RedisStore = require('connect-redis')(session);
 var MongoStore = require('connect-mongo')(session);
-var MongooseInstance = require('./server/mongoose');
+var MongooseConfig = require('./server/schemaconfig');
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var flash    = require('connect-flash');
 
 
 //connect to videos db
-MongooseInstance.connect();
+MongooseConfig.connect();
 
 //the passport config
 app.use(session({  
-  store: new MongoStore({ mongooseConnection: MongooseInstance.connection }),
+  store: new MongoStore({ mongooseConnection: MongooseConfig.connection }),
   secret: 'test',
   resave: false,
   saveUninitialized: false

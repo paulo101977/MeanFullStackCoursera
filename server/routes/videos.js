@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 
-var Video = require('../mongoose').Video;
+var Video = require('../schemaconfig').Video;
 
 //get all
 router.get('/', function(req, res , next) {
