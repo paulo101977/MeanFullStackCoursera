@@ -1,16 +1,63 @@
 <div class="panel">
-    <div class="panel-body">
-        <form>
+    <div ng-show="vloginOpen" class="panel-body">
+        <form name="login" novalidate>
           <div class="form-group">
-            <label for="inputName">User Name</label>
-            <input type="email" class="form-control" id="inputName" aria-describedby="emailHelp" placeholder="Enter username">
+            <label for="email">Email</label>
+            <input type="email" name="email" ng-model="user.email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter your email" required>
+            <span class="text-danger" ng-show="login.email.$dirty && login.email.$error.required">Tell us your email.</span>
+            <span class="text-danger" ng-show="login.email.$dirty && login.email.$error.email">This is not a valid email.</span>
           </div>
           <div class="form-group">
-            <label for="inputPassword">Password</label>
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+            <label for="password">Password</label>
+            <input type="password" minlength="6" name="password" ng-model="user.password" class="form-control" id="password" placeholder="Password" required>
+            <span class="text-danger" ng-show="login.password.$dirty && login.password.$error.minlength">Minimun lenght is 6 character.</span>
+            <span class="text-danger" ng-show="login.password.$dirty && login.password.$error.required">This is required.</span>
           </div>
-          <button ng-click="submit()" class="btn btn-primary">Submit</button>
+          <button ng-disabled="login.$invalid || !vSubmit" ng-click="submit(user)" class="btn btn-primary">Submit</button>
           <button ng-click="cancel()" class="btn btn-danger">Cancel</button>
         </form>
+    </div>
+    <div ng-show="vloginOpen" class="panel-footer">
+        <div class="col-md-12 text-center"><b>Or</b></div>
+        <button ng-click="registerOpen()" class="btn btn-primary">Register</button>
+    </div>
+    <div ng-show="vregisterOpen" class="panel-body">
+        <form name="register" novalidate>
+          <div class="form-group">
+            <label for="name">User Name</label>
+            <input type="text" name="name" class="form-control" ng-model="user.name" 
+                   id="name" aria-describedby="name" placeholder="Enter username" required>
+            <span class="text-danger" 
+                  ng-show="register.name.$dirty && register.name.$error.required">Tell us your name.</span>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" class="form-control" ng-model="user.email" 
+                   id="email" aria-describedby="emailHelp" placeholder="Enter your email" required>
+            <span class="text-danger" ng-show="register.email.$dirty && register.email.$error.required">Tell us your email.</span>
+            <span class="text-danger" ng-show="register.email.$dirty && register.email.$error.email">This is not a valid email.</span>
+          </div>
+          <div class="form-group">
+            <label for="repassword">Password</label>
+            <input type="password" name="password" minlength="6"
+                   ng-model="user.password" class="form-control" id="repassword" placeholder="Password" required>
+            <span class="text-danger" ng-show="register.password.$dirty && register.password.$error.minlength">Minimun lenght is 6 character.</span>
+            <span class="text-danger" ng-show="register.password.$dirty && register.password.$error.required">This is required.</span>
+          </div>
+          <div class="form-group">
+            <label for="retypepassword">Re-type your Password</label>
+            <input type="password" name="repassword" minlength="6"
+                   class="form-control" ng-model="user.repassword" id="retypepassword" placeholder="Re-type your Password" required>
+            <span class="text-danger" ng-show="register.repassword.$dirty && register.repassword.$error.minlength">Minimun lenght is 6 character.</span>
+            <span class="text-danger" ng-show="register.repassword.$dirty && register.repassword.$error.required">This is required.</span>
+            <span class="text-danger" ng-show="register.repassword.$dirty && !equal(user.password,user.repassword)">This should be the same as the password.</span>
+          </div>
+          <button ng-disabled="register.$invalid || !equal(user.password,user.repassword) || !vRegister" ng-click="save(user)" class="btn btn-primary">Submit</button>
+          <button ng-click="cancel()" class="btn btn-danger">Cancel</button>
+        </form>
+    </div>
+    <div ng-show="vregisterOpen" class="panel-footer">
+        <div class="col-md-12 text-center"><b>Or</b></div>
+        <button ng-click="loginOpen()" class="btn btn-primary">Login</button>
     </div>
 </div>

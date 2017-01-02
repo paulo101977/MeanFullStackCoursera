@@ -100,10 +100,12 @@ gulp.task('start:server', function() {
 
 //include run mongod
 gulp.task('start:mongod' , function(){
-    exec('mongod --dbpath ./data/db' , function (err, stdout, stderr){
-        if(err) console.log(err)
-        
-        console.log('exec mongod --dbpath ./data/db')
+    exec('mongod --dbpath ./data/db --journal --storageEngine=mmapv1' , function (err, stdout, stderr){
+        if(err) {
+            console.log(err)
+            throw Error(err);
+        }
+        console.log('exec mongod --dbpath ./data/db --journal --storageEngine=mmapv1')
     })
 })
 

@@ -1,18 +1,84 @@
 var LocalStrategy = require('passport-local').Strategy;
 
+var User = require('../schemaconfig').User;
+
 module.exports = function(passport) {
-    passport.use('local-login',
-        new LocalStrategy(
-            function(username, password, done) { // callback with email and password from our form
+    
+    passport.serializeUser(function(user, done) {
+        done(null, user.id);
+    });
 
-                console.log('username and password:')
-                console.log(username);
-                console.log(password);
+    // used to deserialize the user
+    passport.deserializeUser(function(id, done) {
+        User.findById(id, function(err, user) {
+            done(err, user);
+        });
+    });
+    
+    passport.use('local-signup',
+        new LocalStrategy({
+                // by default, local strategy uses username and password, we will override with email
+                usernameField : 'email',
+                passwordField : 'password',
+                passReqToCallback : true // allows us to pass back the entire request to the callback
+            },
+            function(req , email, password, done) { // callback with email and password from our form
+        
+                /*var user = User.find({ "email": email, "password": password } , function(err,user){
+                    if(err){
+                        console.log("not authenticate");
+                        return done(err, false);
+                    }
+                        
+                    console.log("authenticate");
+                    return done(null , user);
+                })*/
+        
+                console.log(req.body)
+                done(err , null);
                 
-                //return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
 
+                //return done(null, true ,true);
 
-                return done(null, {test:'test'});
+            }
+        )
+    );
+    
+    passport.use('local-login',
+        new LocalStrategy({
+                // by default, local strategy uses username and password, we will override with email
+                usernameField : 'email',
+                passwordField : 'password',
+                passReqToCallback : true // allows us to pass back the entire request to the callback
+            },
+            function(req , email, password, done) { // callback with email and password from our form
+
+                console.log('email and password:')
+                console.log(email);
+                console.log(password);
+        
+                var user = User.find({ "email": email, "password": password } , function(err,user){
+                    if(err){
+                        console.log("not authenticate");
+                        return done(err, null);
+                    }
+                    
+                    if(!user){
+                        console.log("not authenticate");
+                        return done('error' , null);
+                    }
+                    
+                    if(user.length <= 0){
+                        console.log("not authenticate");
+                        return done('error' , null);
+                    }
+                        
+                    console.log("authenticate");
+                    return done(null , user);
+                })
+                
+
+                //return done(null, true ,true);
 
             }
         )

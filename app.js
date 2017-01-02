@@ -45,11 +45,19 @@ app.use(bodyParser.json())
 app.use(express.static('public'));
 
 //routes
+
+//logout
+app.use('/login',require('./server/routes/logout.js'))
+
+//signup
+app.use('/signup',require('./server/routes/signup.js'))
+
 //login
 app.use('/login',require('./server/routes/login.js'))
 
 //video
 app.use('/api_videos',require('./server/routes/videos.js'))
+
 
 
 //listen to port 8080
