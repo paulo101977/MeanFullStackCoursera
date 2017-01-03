@@ -8,9 +8,9 @@ var session = require('express-session') ;
 var RedisStore = require('connect-redis')(session);
 var MongoStore = require('connect-mongo')(session);
 var MongooseConfig = require('./server/schemaconfig');
-var morgan       = require('morgan');
+var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
-var flash    = require('connect-flash');
+var flash = require('connect-flash');
 
 
 //connect to videos db
@@ -19,7 +19,7 @@ MongooseConfig.connect();
 //the passport config
 app.use(session({  
   store: new MongoStore({ mongooseConnection: MongooseConfig.connection }),
-  secret: 'test',
+  secret: 'narutoreborn',
   resave: false,
   saveUninitialized: false
 }))
@@ -44,10 +44,13 @@ app.use(bodyParser.json())
 //use static folder
 app.use(express.static('public'));
 
-//routes
+// **************** START routes **********************
+
+//isloged
+app.use('/isloged',require('./server/routes/isloged.js'))
 
 //logout
-app.use('/login',require('./server/routes/logout.js'))
+app.use('/logout',require('./server/routes/logout.js'))
 
 //signup
 app.use('/signup',require('./server/routes/signup.js'))
@@ -58,7 +61,14 @@ app.use('/login',require('./server/routes/login.js'))
 //video
 app.use('/api_videos',require('./server/routes/videos.js'))
 
+//error messages
+app.use('/error',require('./server/routes/error.js'))
 
+
+//sucess messages
+app.use('/sucess',require('./server/routes/sucess.js'))
+
+// **************** END routes **********************
 
 //listen to port 8080
 app.listen(8080, function () {

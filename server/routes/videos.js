@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-
+var isloged = require('../logged'); //middleware to verify if user is logged
 var Video = require('../schemaconfig').Video;
 
 //get all
@@ -14,7 +13,7 @@ router.get('/', function(req, res , next) {
     });
 });
 
-//get specific
+//get specific video
 router.get('/:id', function(req, res , next) {
     var id = req.params.id;
     
@@ -26,16 +25,16 @@ router.get('/:id', function(req, res , next) {
     });
 });
 
-
-router.post('/', function(req, res , next) {
+//save new videos if is logged
+router.post('/', isloged ,function(req, res , next) {
     if (!req.body) return res.sendStatus(400)
     
-    var video = new Video(req.body);
+    var VideoInstance = new Video(req.body);
     
-    video.save(function(err,doc){
+    VideoInstance.save(function(err,video){
         if(err) next(err);
         
-        res.json(doc);
+        res.json(video);
     });
 });
 

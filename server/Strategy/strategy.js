@@ -11,6 +11,7 @@ module.exports = function(passport) {
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
         User.findById(id, function(err, user) {
+            console.log(id)
             done(err, user);
         });
     });
@@ -24,21 +25,57 @@ module.exports = function(passport) {
             },
             function(req , email, password, done) { // callback with email and password from our form
         
-                /*var user = User.find({ "email": email, "password": password } , function(err,user){
-                    if(err){
-                        console.log("not authenticate");
-                        return done(err, false);
-                    }
-                        
-                    console.log("authenticate");
-                    return done(null , user);
-                })*/
+                //username: String,
+                //email:  String,
+                //password: String,
         
-                console.log(req.body)
-                done(err , null);
-                
+                process.nextTick(function(){
+                    console.log(req.body)
+        
+                    if(!req.body.username){
+                        return done('username error');
+                    }
 
-                //return done(null, true ,true);
+                    if(!req.body.email){
+                        return done('email error');
+                    }
+
+                    if(!req.body.password){
+                        return done('password error');
+                    }
+
+                    User.findOne({ "email": req.body.username } , function(err,user){
+                        if(err){
+                            console.log("err");
+                            return done(err);
+                        }
+
+                        if(user){
+                            return done('Error: User existent');
+                        }
+
+                        var newUser = new User();
+                        newUser.username = req.body.username;
+                        newUser.email = req.body.email;
+                        newUser.password = newUser.generateHash(req.body.password);//save hash with the password
+
+                        // save the user
+                        newUser.save(function(err) {
+                            if (err)
+                                return done(err, null);
+
+                            return done(null, newUser);
+                        });
+                    })
+
+                    console.log(req.body)
+                    //done(err , null);
+
+
+                    //return done(null, true ,true);
+                    
+                })
+        
 
             }
         )
@@ -57,23 +94,22 @@ module.exports = function(passport) {
                 console.log(email);
                 console.log(password);
         
-                var user = User.find({ "email": email, "password": password } , function(err,user){
+                User.findOne({ "email": email, /*"password": password*/ } , function(err,user){
                     if(err){
                         console.log("not authenticate");
                         return done(err, null);
                     }
                     
                     if(!user){
-                        console.log("not authenticate");
+                        console.log("user not found");
                         return done('error' , null);
                     }
                     
-                    if(user.length <= 0){
-                        console.log("not authenticate");
-                        return done('error' , null);
-                    }
+                    //test the hash
+                    if (!user.validPassword(password))
+                        return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'))
                         
-                    console.log("authenticate");
+                    console.log('sucess authenticate!');
                     return done(null , user);
                 })
                 
@@ -83,4 +119,6 @@ module.exports = function(passport) {
             }
         )
     );
+    
+    
 }

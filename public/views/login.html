@@ -13,6 +13,8 @@
             <span class="text-danger" ng-show="login.password.$dirty && login.password.$error.minlength">Minimun lenght is 6 character.</span>
             <span class="text-danger" ng-show="login.password.$dirty && login.password.$error.required">This is required.</span>
           </div>
+          <span class="text-danger" ng-show="errorLogin"><b>User not found! Try register!</b><br><br></span>
+          <span class="text-danger" ng-show="errorPassword"><b>Error on type your password!</b><br><br></span>
           <button ng-disabled="login.$invalid || !vSubmit" ng-click="submit(user)" class="btn btn-primary">Submit</button>
           <button ng-click="cancel()" class="btn btn-danger">Cancel</button>
         </form>
@@ -21,6 +23,8 @@
         <div class="col-md-12 text-center"><b>Or</b></div>
         <button ng-click="registerOpen()" class="btn btn-primary">Register</button>
     </div>
+    
+    <!-- register -->
     <div ng-show="vregisterOpen" class="panel-body">
         <form name="register" novalidate>
           <div class="form-group">
@@ -54,6 +58,8 @@
           </div>
           <button ng-disabled="register.$invalid || !equal(user.password,user.repassword) || !vRegister" ng-click="save(user)" class="btn btn-primary">Submit</button>
           <button ng-click="cancel()" class="btn btn-danger">Cancel</button>
+          <br>
+          <span ng-show="errorRegister" class="text-danger"><b>Existing User! Try login!</b></span>
         </form>
     </div>
     <div ng-show="vregisterOpen" class="panel-footer">
