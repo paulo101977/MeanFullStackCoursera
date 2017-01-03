@@ -18,6 +18,12 @@
    @import "video";  
 }
 
+@media screen and (max-width: 991px){
+    .container-fluid {
+        margin-right: -15px;
+    }
+}
+
 
 ::-webkit-scrollbar { 
     display: none; 
