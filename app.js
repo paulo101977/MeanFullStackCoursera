@@ -16,6 +16,12 @@ var flash = require('connect-flash');
 //connect to videos db
 MongooseConfig.connect();
 
+//listen for uncaught exceptions
+process.on('uncaughtException', (err) => {
+   console.log('Uncaught Exception: ');
+   console.log(err);
+});
+
 //the passport config
 app.use(session({  
   store: new MongoStore({ mongooseConnection: MongooseConfig.connection }),

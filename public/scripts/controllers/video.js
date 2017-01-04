@@ -4,33 +4,37 @@ app
   .controller('VideoCtrl',[ '$rootScope' ,'$scope' , '$sce' , '$stateParams' , '$resource' , 
     function ($rootScope  , $scope , $sce , $stateParams , $resource) {
     
-        //update current
-        $rootScope.$watch('currentVideo',function(){
-            
-            var current = $rootScope.currentVideo;
-            
-            //clicked on home item
-            if(current){
-                var video = $rootScope.currentVideo,
-                    path;
-                
-                //the video path id
-                path = video.url.split('?v=')[1];
+        
+        $rootScope.$watch('logged' , function(newValue){
+            $scope.logged = newValue;
+        })
+        
+        //load current video
+        function currentVideo(){
+            var id = $stateParams.id;
+            var Video = $resource('http://localhost:8080/api_videos/:id', {_id:'@id'});
+            var video = Video.query({id:id}, function() {
+                var path = video[0].url.split('?v=')[1];
 
-                $scope.video = video;
+                $scope.video = video[0];
 
                 $scope.path = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + path) ;
-            }
-            else { //retrive from database
-                var id = $stateParams.id;
-                var Video = $resource('http://localhost:8080/api_videos/:id', {id:'@id'});
-                var video = Video.get({id:id}, function() {
-                    var path = video.url.split('?v=')[1];
+            });
+        }
+        
+        currentVideo();
+        
+        //get all comments
+        function comments(){
+            var id = $stateParams.id;
+            var Comments = $resource('http://localhost:8080/api_videos/:id/comments', {id:'@id'});
+            var comments = Comments.query({id:id}, function() {
 
-                    $scope.video = video;
-                    
-                    $scope.path = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + path) ;
-                });
-            }
-        })
+                $scope.comments = comments;
+
+            });
+        }
+        
+        comments();
+        
 }]);

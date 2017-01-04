@@ -10,21 +10,7 @@ app
       
       var _self = this;
                         
-      function isLoged(){
-         var promise = $resource('http://localhost:8080/isloged/');
-         var entry = promise.query(function(){
-             //after load request
-             if(entry){
-                 if(entry[0].message){
-                     $scope.logged = true;
-                 }
-             }
-             
-         });
-          
-      }
-                        
-      isLoged();
+    
       
       //watch changes on searchText
       $scope.$watch('searchText', function(newValue, oldValue) {
@@ -80,15 +66,17 @@ app
       }
       
       
-      //if is logged
+      //if user is logged
       $rootScope.$watch('logged' , function(newValue, oldValue){
+          //$scope.logged = newValue;
           $scope.logged = newValue;
       })
       
       $scope.logout = function(event){
           event.preventDefault();
           
-          $scope.logged = false;
+          //$scope.logged = false;
+          $rootScope.logged = false;
           
           //logout in the server
           var promise = $resource('http://localhost:8080/logout/');

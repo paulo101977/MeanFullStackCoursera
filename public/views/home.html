@@ -5,7 +5,8 @@
             <h3 class="panel-title">{{video.title}}</h3>
           </div>
           <div class="panel-body">
-              <a ng-click="setCurrentVideo($event , video)"  class="thumbnail">
+              <!-- a ng-click="setCurrentVideo($event , video)"  class="thumbnail" -->
+              <a href="/#!/video/{{video._id}}"  class="thumbnail">
                 <img src="{{video.thumb}}" alt="{{video.title}}">
                 <div class="play_icon_container">
                     <img src="../images/icon.svg" class="thumb_icon">

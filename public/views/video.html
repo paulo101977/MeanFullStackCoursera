@@ -22,29 +22,35 @@
             <div class="col-md-12">
                 <h2>Comments:</h2>
                 <br>
-                <button class="btn btn-primary" data-toggle="collapse" data-target="#comment-form">Add Comment</button>
+                <button class="btn btn-primary" data-toggle="collapse" 
+                        ng-disabled="!logged" data-target="#comment-form">Add Comment</button>
                 <div id="comment-form" class="collapse">
                     <form name="form" class="col-md-6">
                         <br><br>
                         <div class="form-group">
-                            <textarea ng-required="required" name="comment" class="form-control"
+                            <textarea ng-model="obj.comment" ng-required="required" name="comment" class="form-control"
                                       placeholder="Type your comment" rows="3" required></textarea>
                         </div>
-                        <button ng-disabled="form.comment.$error.required" 
-                                ng-click="send(form , video)" type="submit" class="btn btn-primary">Submit</button>
+                        <button ng-disabled="form.comment.$error.required || !logged" 
+                                data-toggle="collapse" href="#comment-form"
+                                ng-click="save(form , video)" type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
                         <button ng-click="cancel()" 
-                                data-toggle="collapse" href="#comment-form" type="submit" class="btn btn-danger">Cancel</button>
+                                data-toggle="collapse" href="#comment-form" type="submit" class="btn btn-danger">
+                            Cancel
+                        </button>
                     </form>
                 </div>
             </div>
             <div class="col-md-12">
                 <br>
                 <br>
-                <blockquote>
-                    <p>Blalbal</p>
-                    <footer>Paulo Sérgio</footer>
-                    <button type="submit" class="btn btn-primary btn-xs">Edit</button>
-                    <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                <blockquote ng-repeat="comment in comments">
+                    <p>{{comment.comment}}</p>
+                    <footer>{{comment._creator.username}}</footer>
+                    <button ng-disabled="testIfUser(comment)" ng-click="edit(comment)" type="submit" class="btn btn-primary btn-xs">Edit</button>
+                    <button ng-disabled="testIfUser(comment)" ng-click="delete(comment)" type="submit" class="btn btn-danger btn-xs">Delete</button>
                 </blockquote>
             </div>
         </div>

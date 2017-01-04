@@ -25,6 +25,8 @@ app
             VideoInstance.title = form.title;
             VideoInstance.url = form.url;
             
+            VideoInstance._author = $rootScope.user._id;
+            
             //save video instance
             Video.save(VideoInstance , function(){
                 
@@ -40,7 +42,7 @@ app
                             + parseInt(Math.random()*4)
                             + '.jpg';
 
-
+                        //set the video author
                         VideoInstance.thumb = thumb;
                         
                         $rootScope.videos.push(VideoInstance);
