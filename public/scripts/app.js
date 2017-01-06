@@ -16,8 +16,8 @@ var app = angular
     //'ngMessages',
     'ngResource',
     'ui.router',
-    'ui.bootstrap'
-    //'ngSanitize',
+    'ui.bootstrap',
+    'ngSanitize',
     //'ngTouch'
   ])
   .config(function($stateProvider, $urlRouterProvider) {

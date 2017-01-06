@@ -49,10 +49,26 @@
                 <blockquote ng-repeat="comment in comments">
                     <p>{{comment.comment}}</p>
                     <footer>{{comment._creator.username}}</footer>
-                    <button ng-disabled="testIfUser(comment)" ng-click="edit(comment)" type="submit" class="btn btn-primary btn-xs">Edit</button>
-                    <button ng-disabled="testIfUser(comment)" ng-click="delete(comment)" type="submit" class="btn btn-danger btn-xs">Delete</button>
+                    <button 
+                            popover-is-open="isOpen[$index]"
+                            uib-popover-template="'popover.html'" popover-title="Edit Comment" popover-placement="bottom-left"
+                            id="popover{{$index}}" ng-disabled="!testIfUser(comment)" ng-click="edit(comment , video , $index)"
+                            type="submit" class="btn btn-primary btn-xs">
+                        Edit
+                    </button>
+                    <button ng-disabled="!testIfUser(comment)" ng-click="delete(comment , video)" type="submit" class="btn btn-danger btn-xs">Delete</button>
                 </blockquote>
             </div>
         </div>
+        
+        <!-- popover template -->
+        <script type="text/ng-template" id="popover.html">
+            <div class="form-group">
+              <label>Comment</label>
+              <input type="text" ng-model="currentComment.comment" class="form-control">
+            </div>
+            <button class="btn btn-primary btn-xs" ng-click="put($index, comment, video)">Save</button>
+            <button class="btn btn-danger btn-xs" ng-click="cancelEdit($index)">Cancel</button>
+        </script>
     </div>
 </div>

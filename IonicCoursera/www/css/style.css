@@ -1,0 +1,21 @@
+/* Empty. Add your own CSS if you like */
+
+
+/* remove scrollbar */
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+.login{
+    height: 100%;
+}
+
+.login button{
+    width: 49%;
+}
+
+.login .button-container{
+    top: 85vh;
+    position: absolute;
+    width: 100%
+}

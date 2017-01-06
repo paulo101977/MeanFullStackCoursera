@@ -81,6 +81,32 @@ router.post('/:idVideo/comments', function(req, res , next) {
     
 });
 
+
+//delete comments
+router.delete('/:idVideo/comments/:idComment', function(req, res , next) {
+    var idComment = req.params.idComment;
+    
+    Comment.remove({_id: idComment} , function(err){
+        if(err) res.json({message: "Error: " + err})
+        
+        res.json({message: "sucess"})
+    })
+    
+});
+
+
+//update comments
+router.put('/:idVideo/comments/:idComment', function(req, res , next) {
+    var idComment = req.params.idComment;
+    
+    Comment.findOneAndUpdate({_id:idComment}, req.body, function (err, comment) {
+        if(err) res.json({message: "Error: " + err});
+        
+        res.send({message: "sucess"});
+    });
+    
+});
+
 //save new videos if is logged
 router.post('/', isloged ,function(req, res , next) {
     if (!req.body) return res.sendStatus(400)
