@@ -14,7 +14,7 @@
             <!-- Main content, usually <ion-nav-view> -->
               <ion-list>
                   <ion-item ng-repeat="video in videos">
-                    <a class="item item-thumbnail-left" ui-sref="video">
+                    <a class="item item-thumbnail-left" ui-sref="video({ idVideo: video._id })">
                       <img src="{{video.thumb}}">
                       <h2>{{video.title}}</h2>
                       <p>{{video.description}}</p>

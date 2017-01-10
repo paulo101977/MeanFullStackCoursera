@@ -109,6 +109,18 @@ gulp.task('start:mongod' , function(){
     })
 })
 
+
+//include run ionic
+gulp.task('start:ionic' , function(){
+    exec('cd IonicCoursera && ionic serve --lab --address localhost && cd ..' , function (err, stdout, stderr){
+        if(err) {
+            console.log(err)
+            throw Error(err);
+        }
+        console.log('exec cd IonicCoursera && ionic serve --lab && cd ..')
+    })
+})
+
 gulp.task('start:server:test', function() {
   $.connect.server({
     root: ['test', yeoman.app, '.tmp'],
@@ -159,6 +171,7 @@ gulp.task('serve', function (cb) {
     ['start:mongod'], //start mongod
     ['start:client'],
     ['sass:watch'],
+    ['start:ionic'], //start ionic
     'watch', cb);
 });
 

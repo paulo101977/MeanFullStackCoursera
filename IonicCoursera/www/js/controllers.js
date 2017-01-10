@@ -66,11 +66,68 @@ angular.module('starter.controllers', [])
       getAllVideos();
 })
 
-.controller('VideoCTRL', function($rootScope , $scope , $state , $resource ) {
+.controller('VideoCTRL', function($rootScope , $scope , $state , $resource , $stateParams , $sce , $document) {
     
-    $scope.goBack = function(){
+    $scope.status = {};
+    
+    $scope.status.isOpen = false;
+    
+    console.log($stateParams );
+    
+    //load current video
+    function currentVideo(){
+        var id = $stateParams.idVideo;
+        var Video = $resource('http://localhost:8080/api_videos/:id', {_id:'@id'});
+        var video = Video.query({id:id}, function() {
+            var path = video[0].url.split('?v=')[1];
+
+            $scope.video = video[0];
+            
+            
+            var thumb = 'http://img.youtube.com/vi/'
+                    + path 
+                    + '/'
+                    + parseInt(Math.random()*4)
+                    + '.jpg';
+
+            $scope.video.thumb = thumb;
+
+            $scope.path = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + path) ;
+            
+            console.log($scope.video);
+        });
+    }
+        
+    currentVideo();
+    
+    /*$scope.goBack = function(){
         $state.go('videos');
+    }*/
+    
+    $scope.play = function(event){
+        console.dir( $('#video'));
+        
+        $('#video')[0].src = $scope.path + "?autoplay=1";
+        
+        event.preventDefault();
     }
     
+    //get all comments
+    function comments(){
+        var id = $stateParams.idVideo;
+        var Comments = $resource('http://localhost:8080/api_videos/:id/comments', {id:'@id'});
+        var comments = Comments.query({id:id}, function() {
+
+            $scope.comments = comments;
+
+        });
+    }
+
+    comments();
+    
+    $scope.toggle = function(event){
+        event.preventDefault();
+        $scope.status.isOpen = !$scope.status.isOpen;
+    }
     
 });

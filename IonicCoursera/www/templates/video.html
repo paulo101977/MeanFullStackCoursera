@@ -1,23 +1,36 @@
 <ion-view view-title="Video" ng-controller="VideoCTRL">
     <ion-content class="has-header">
         <!-- Main content, usually <ion-nav-view> -->
-        
         <div class="list card">
 
-            <div class="item item-avatar">
-                <img src="avatar.jpg">
-                <h2>Pretty Hate Machine</h2>
-                <p>Nine Inch Nails</p>
+          <div class="item item-avatar">
+                <img src="{{video.thumb}}">
+                <h2>{{video.title}}</h2>
+                <p>{{video.date}}</p>
             </div>
 
-            <div class="item item-image">
-                <iframe src="https://www.youtube.com/embed/X3rGdmoTjDc" frameborder="0" allowfullscreen></iframe>
-            </div>
-
-            <a class="item item-icon-left assertive" href="#">
-                <i class="icon ion-music-note"></i>
-                Start listening
+          <div class="item item-body">
+            <iframe class="full-image" id="video" src="{{path}}" frameborder="0" allowfullscreen></iframe>
+            <p>{{video.description}}</p>
+              
+              
+            <a class="item item-icon-left positive" ng-click="play($event)">
+                <i class="icon ion-ios-play-outline"></i>
+                Start play
             </a>
+              
+            <p>
+              <a href="#" ng-click="toggle($event)" class="subdued">{{comments.length}} Comments</a>
+            </p>
+          </div>
+            
+          <uib-accordion close-others="oneAtATime">
+            <div uib-accordion-group 
+                 heading="Static Header, initially expanded"
+                 class="panel-default" is-open="status.isOpen" is-disabled="false">
+              <div ng-repeat="comment in comments">test</div>
+            </div>
+          </uib-accordion>
 
         </div>
      </ion-content>
