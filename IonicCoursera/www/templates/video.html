@@ -1,4 +1,7 @@
 <ion-view view-title="Video" ng-controller="VideoCTRL">
+    <ion-nav-title>
+        {{video.title}}
+    </ion-nav-title>
     <ion-content class="has-header">
         <!-- Main content, usually <ion-nav-view> -->
         <div class="list card">
@@ -19,16 +22,31 @@
                 Start play
             </a>
               
-            <p>
+            <p class="video">
               <a href="#" ng-click="toggle($event)" class="subdued">{{comments.length}} Comments</a>
+              <button class="icon ion-plus-circled"></button>
             </p>
           </div>
             
-          <uib-accordion close-others="oneAtATime">
+          <uib-accordion class="video" close-others="oneAtATime">
             <div uib-accordion-group 
                  heading="Static Header, initially expanded"
                  class="panel-default" is-open="status.isOpen" is-disabled="false">
-              <div ng-repeat="comment in comments">test</div>
+                <div class="list">
+                    <div class="item item-avatar" ng-repeat="comment in comments">
+                        <div class="row">
+                            <div class="col">
+                                <i class="icon ion-ios-chatboxes-outline"></i>
+                            </div>
+                            <div class="col col-75">
+                                <b>{{comment._creator.username}}</b>, commented:
+                                <p>{{comment.comment}}</p>
+                            </div>
+                            <button class="icon ion-edit"></button>
+                            <button class="icon ion-close-circled"></button>
+                        </div>
+                    </div>
+                </div>
             </div>
           </uib-accordion>
 

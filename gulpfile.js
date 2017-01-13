@@ -109,6 +109,23 @@ gulp.task('start:mongod' , function(){
     })
 })
 
+//export PATH mongo on mac
+
+    
+gulp.task('export:mongo' , function(){
+    
+    var isMac = /^darwin/.test(process.platform);
+    
+    if(isMac){
+        exec('export PATH=$PATH:$HOME/Desktop/mongodb/bin/' , function (err, stdout, stderr){
+            if(err) {
+                console.log(err)
+                throw Error(err);
+            }
+            console.log('export PATH=$PATH:$HOME/Desktop/mongodb/bin/')
+        })
+    }
+})
 
 //include run ionic
 gulp.task('start:ionic' , function(){
@@ -168,6 +185,7 @@ gulp.task('serve', function (cb) {
     'sass',
     'json-server',
     ['lint:scripts'],
+    ['export:mongo'], //export mongo in mac
     ['start:mongod'], //start mongod
     ['start:client'],
     ['sass:watch'],

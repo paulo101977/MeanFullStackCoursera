@@ -1,43 +1,99 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
-
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-})
-
-.controller('LoginCTRL', function($scope , $state) {
+.controller('RegisterCTRL', function($scope , $state) {
   
     $scope.login = function(){
         $state.go('videos');
     }
 })
 
-.controller('VideosCTRL', function($rootScope , $scope , $state , $resource , $ionicSideMenuDelegate) {
+.controller('AddVideoCTRL', function($rootScope , $scope , $state) {
+  
+    $scope.closeModal = function(){
+        $rootScope.modal.hide();
+    }
+})
+
+
+.controller('LoginCTRL', function($rootScope , $scope , $state , $resource) {
+    
+    $scope.user = {};
+    
+    $scope.errorPassword = null;
+    $scope.errorLogin = null;
+    
+    $scope.submit = function(user){
+        var User = $resource('http://localhost:8080/login/');
+        
+        var UserInstance = new User();
+        
+        UserInstance.email= user.email;
+        UserInstance.password = user.password;
+        
+        
+        //try update the server and get the response
+        User.save(UserInstance)
+        .$promise
+        .then(
+            function(user){
+                
+                if(user.error){
+                    $scope.errorPassword = user.error;
+                    
+                }
+                else { //sucess
+                    $scope.errorLogin = null;
+                    
+                    $rootScope.logged = true;
+                    
+                    $rootScope.user = user;
+                    
+                    $state.go("videos")
+                }
+                
+            },//sucess
+            function(error){
+                $scope.errorLogin = error;
+                
+            }//error
+        )
+    }
+})
+
+.controller('VideosCTRL', function($rootScope , $scope , $state , $resource , $ionicSideMenuDelegate , $ionicModal) {
+    
+    $ionicModal.fromTemplateUrl('templates/addvideo.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal = modal;
+        $rootScope.modal = modal;
+    });
+    
+    $scope.openModal = function(){
+        $scope.modal.show();
+    }
+    
+    $scope.closeModal = function() {
+        $scope.modal.hide();
+    };
     
     $scope.toggleMenu = function(){
         $ionicSideMenuDelegate.toggleRight();
+    }
+    
+    $rootScope.$watch('logged',function(newValue){
+        $scope.logged = newValue;
+    })
+    
+    $scope.logout = function(){
+        $rootScope.logged = false;
+        $rootScope.user = {};
+        
+          
+        //logout in the server
+        var promise = $resource('http://localhost:8080/logout/');
+        promise.query(function(){});
     }
     
     $scope.videos = [];
@@ -64,6 +120,28 @@ angular.module('starter.controllers', [])
       }
     
       getAllVideos();
+    
+      function isLoged(){
+         var promise = $resource('http://localhost:8080/isloged/');
+         var entry = promise.query(function(){
+             //after load request
+             if(entry){
+                 if(entry[0].message){
+                     $rootScope.logged = true;
+                 }
+                 
+                 //request user info
+                 if(entry[0].user){
+                     console.log(entry[0].user);
+                     $rootScope.user = entry[0].user;
+                 }
+             }
+             
+         });
+          
+      }
+                        
+      isLoged();
 })
 
 .controller('VideoCTRL', function($rootScope , $scope , $state , $resource , $stateParams , $sce , $document) {

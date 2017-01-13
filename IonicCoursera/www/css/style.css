@@ -19,3 +19,45 @@
     position: absolute;
     width: 100%
 }
+
+.video .panel-default>.panel-heading{
+    display: none;
+}
+
+.video .panel-group{
+    margin-bottom: 0px;
+}
+
+.video .panel{
+    border: 0px;
+    box-shadow: 0px;
+    -webkit-box-shadow: 0px;
+}
+
+.video .item{
+    padding-left: 0px;
+}
+
+.video .row{
+    margin-left: 0px;
+}
+
+.video button{
+    background: transparent;
+    border: 0px;
+    font-size: 20px;
+}
+
+input[type=search]{
+    height: 100%;
+    background: #eee;
+}
+
+.custom_menu,
+.custom_menu:active{
+    border-color: transparent !important;
+}
+
+button[disabled]{
+    opacity: 0.5;
+}

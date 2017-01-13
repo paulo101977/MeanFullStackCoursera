@@ -2,21 +2,23 @@
     <div class="login">
         <div class="list has-header">
             <label class="item item-input item-floating-label">
-            <span class="input-label">Email</span>
-            <input type="text" placeholder="Type your email">
+                <span class="input-label">Email</span>
+                <input ng-model="user.email" type="text" placeholder="Type your email">
             </label>
             <label class="item item-input item-floating-label">
             <span class="input-label">Password</span>
-            <input type="password" placeholder="Password">
+            <input ng-model="user.password" type="password" placeholder="Password">
             </label>
-            <div class="button-container">
-                <button ng-click="login()" class="button button-stable">
+            <div class="button-bar">
+                <button ng-click="submit(user)" class="button icon-left ion-checkmark-round button-stable">
                   Login
                 </button>
-                <button class="button button-stable">
-                  Register
+                <button class="button icon-left ion-close-round button-stable">
+                  Cancel
                 </button>
             </div>
+            <label ng-show="errorPassword" class="assertive">Password error!</label>
+            <label ng-show="errorLogin" class="assertive">User not found!</label>
         </div>
     </div>
 </ion-view>
