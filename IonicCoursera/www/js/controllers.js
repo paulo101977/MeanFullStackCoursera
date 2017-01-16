@@ -312,6 +312,28 @@ angular.module('starter.controllers', [])
     $scope.isRender = true;
     
     
+    //remove comment
+    //delete the comment
+    $scope.deleteComment = function(comment , video){
+        var Comment = 
+        $resource('http://localhost:8080/api_videos/:idVideo/comments/:idComment')
+        .delete({idVideo: video._id, idComment: comment._id},
+            function(err,response){
+                if(err) console.log(err)
+
+                if(response){
+
+                    var index = $scope.comments.indexOf(comment);
+
+                    if(index > -1){
+                        $scope.comments.splice(index, 1);
+                    } 
+                }
+            }
+        );
+
+    }
+    
     
     //comment modal instance
     $ionicModal.fromTemplateUrl('templates/comment.html', {
