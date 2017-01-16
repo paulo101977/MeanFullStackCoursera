@@ -1,17 +1,88 @@
 angular.module('starter.controllers', [])
 
-.controller('RegisterCTRL', function($scope , $state) {
+.controller('RegisterCTRL', function($scope , $state, $resource) {
   
-    $scope.login = function(){
-        $state.go('videos');
+    $scope.close = function(){
+        $state.go("videos")
+    }
+    
+    //register new user
+    $scope.save = function(user){
+        
+        var User = $resource('http://localhost:8080/signup/');
+        
+        var UserInstance = new User();
+        
+        UserInstance.username = user.name;
+        UserInstance.email= user.email;
+        UserInstance.password = user.password;
+        
+        //try update the server and get the response
+        User.save(UserInstance)
+        .$promise
+        .then(
+            function(value){
+                $scope.errorRegister = null;
+                
+                $state.go("videos");//go back
+            },//sucess
+            function(error){
+                $scope.errorRegister = error;
+            }//error
+        )
     }
 })
 
-.controller('AddVideoCTRL', function($rootScope , $scope , $state) {
+.controller('AddVideoCTRL', function($rootScope , $scope , $state , $resource) {
   
     $scope.closeModal = function(){
         $rootScope.modal.hide();
     }
+    
+    //save the video instance and update view
+    $scope.submit = function(form){
+        
+        $rootScope.modal.hide();
+
+        var Video = $resource('http://localhost:8080/api_videos/');
+
+        var VideoInstance = new Video();
+        VideoInstance.description = form.description;
+        VideoInstance.title = form.title;
+        VideoInstance.url = form.url;
+
+        VideoInstance._author = $rootScope.user._id;
+
+        //save video instance
+        Video.save(VideoInstance , function(){
+
+            if(VideoInstance){
+
+                //update view
+                if($rootScope.videos){
+                    
+                    $scope.video = {};
+
+                    var path = VideoInstance.url.split('?v=');
+                    var thumb = 'http://img.youtube.com/vi/'
+                        + path[1] 
+                        + '/'
+                        + parseInt(Math.random()*4)
+                        + '.jpg';
+
+                    //set the video author
+                    VideoInstance.thumb = thumb;
+                    
+                    console.dir(VideoInstance)
+
+                    $rootScope.videos.push(VideoInstance);
+                }
+            }
+            
+        })
+
+    }
+
 })
 
 
