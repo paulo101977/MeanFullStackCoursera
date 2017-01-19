@@ -1,5 +1,44 @@
 angular.module('starter.controllers', [])
 
+.controller('EditCTRL', function($rootScope , $scope , $state, $resource , $ionicSideMenuDelegate) {
+    
+    if($ionicSideMenuDelegate.showBackButton) $ionicSideMenuDelegate.showBackButton(true)
+  
+    /*$scope.close = function(){
+        $state.go("videos")
+    }*/
+    
+    $scope.currentCommment = "";
+    
+    $rootScope.$watch("currentComment" , function(newValue){
+    	$scope.currentCommment = newValue;
+    })
+    
+    //register new user
+    $scope.saveEdit = function(currentComment){
+    	
+    	console.log("currentComment")
+    	console.dir(currentComment)
+        
+    	//update comment on the server
+        var Comment = 
+        $resource('http://localhost:8080/api_videos/:idVideo/comments/:idComment',
+            {idVideo: currentComment._video , idComment: currentComment._id},
+            {'update': { method:'PUT' }} //select the RESTful method
+        );
+
+        var CommentInstance = new Comment();
+        CommentInstance.comment = currentComment.comment;//update comment
+
+        Comment.update({ _id:currentComment._id }, CommentInstance , function(instance){
+
+        	$rootScope.modalEdit.hide(); //close popover
+        	
+        	
+        });
+    }
+})
+
 .controller('CommentCTRL' , function($rootScope, $scope , $resource){
     $scope.closeModal = function(){
         $rootScope.modalComment.hide();
@@ -312,6 +351,7 @@ angular.module('starter.controllers', [])
     $scope.isRender = true;
     
     
+    
     //remove comment
     //delete the comment
     $scope.deleteComment = function(comment , video){
@@ -344,6 +384,28 @@ angular.module('starter.controllers', [])
         $scope.modalComment = modal;
         $rootScope.modalComment = modal;
     });
+    
+    //edit modal instance
+    $ionicModal.fromTemplateUrl('templates/edit.html', {
+        scope: $scope,
+        animation: 'animated jello',
+        hideDelay:92
+    }).then(function(modal) {
+        $scope.modalEdit = modal;
+        $rootScope.modalEdit = modal;
+    });
+    
+    
+    //edit modal open
+    $scope.openModalEdit = function(currentComment){
+    	$scope.modalEdit.show();
+    	
+    	$rootScope.currentComment = currentComment;
+    }
+    
+    $scope.closeModalEdit = function(){
+    	$scope.modalEdit.hide();
+    }
     
     $scope.openModal = function(){
         $scope.modalComment.show();

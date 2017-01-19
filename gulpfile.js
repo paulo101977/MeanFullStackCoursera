@@ -114,7 +114,7 @@ gulp.task('start:mongod' , function(){
     
 gulp.task('export:mongo' , function(){
     
-    var isMac = /^darwin/.test(process.platform);
+    /*var isMac = /^darwin/.test(process.platform);
     
     if(isMac){
         exec('export PATH=$PATH:$HOME/Desktop/mongodb/bin/' , function (err, stdout, stderr){
@@ -124,7 +124,7 @@ gulp.task('export:mongo' , function(){
             }
             console.log('export PATH=$PATH:$HOME/Desktop/mongodb/bin/')
         })
-    }
+    }*/
 })
 
 //include run ionic

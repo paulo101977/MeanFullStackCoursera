@@ -45,7 +45,7 @@
                                 <b>{{comment._creator.username}}</b>, commented:
                                 <p>{{comment.comment}}</p>
                             </div>
-                            <button class="icon ion-edit"></button>
+                            <button ng-disabled="testUser()" ng-click="openModalEdit(comment)" class="icon ion-edit"></button>
                             <button ng-disabled="testUser()" ng-click="deleteComment(comment , video)" class="icon ion-close-circled"></button>
                         </div>
                     </div>
