@@ -23,9 +23,7 @@ module.exports = {
     Comment: Comment,
     mongoose: mongoose,
     connect: function(){
-        mongoose.connect(uri, function(err){
-        	console.log(err)
-        });
+        mongoose.connect(uri, {auth:{authdb:"admin"}});
     },
     connection: mongoose.connection
 } 
