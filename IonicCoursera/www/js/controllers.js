@@ -1,5 +1,6 @@
 angular.module('starter.controllers', [])
 
+//set controllers
 .controller('EditCTRL', function($rootScope , $scope , $state, $resource , $ionicSideMenuDelegate) {
     
     if($ionicSideMenuDelegate.showBackButton) $ionicSideMenuDelegate.showBackButton(true)
