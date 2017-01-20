@@ -1,21 +1,205 @@
 angular.module('starter.controllers', [])
 
-.controller('RegisterCTRL', function($scope , $state) {
+.controller('EditCTRL', function($rootScope , $scope , $state, $resource , $ionicSideMenuDelegate) {
+    
+    if($ionicSideMenuDelegate.showBackButton) $ionicSideMenuDelegate.showBackButton(true)
   
-    $scope.login = function(){
-        $state.go('videos');
+    /*$scope.close = function(){
+        $state.go("videos")
+    }*/
+    
+    $scope.currentCommment = "";
+    
+    $rootScope.$watch("currentComment" , function(newValue){
+    	$scope.currentCommment = newValue;
+    })
+    
+    //register new user
+    $scope.saveEdit = function(currentComment){
+    	
+    	console.log("currentComment")
+    	console.dir(currentComment)
+        
+    	//update comment on the server
+        var Comment = 
+        $resource('http://localhost:8080/api_videos/:idVideo/comments/:idComment',
+            {idVideo: currentComment._video , idComment: currentComment._id},
+            {'update': { method:'PUT' }} //select the RESTful method
+        );
+
+        var CommentInstance = new Comment();
+        CommentInstance.comment = currentComment.comment;//update comment
+
+        Comment.update({ _id:currentComment._id }, CommentInstance , function(instance){
+
+        	$rootScope.modalEdit.hide(); //close popover
+        	
+        	
+        });
     }
 })
 
-.controller('AddVideoCTRL', function($rootScope , $scope , $state) {
+.controller('CommentCTRL' , function($rootScope, $scope , $resource){
+    $scope.closeModal = function(){
+        $rootScope.modalComment.hide();
+        $scope.comment = {}
+    }
+    
+    $scope.submit = function(comment , video){
+        //update comment on the server
+            
+        var Comment = 
+            $resource('http://localhost:8080/api_videos/:idVideo/comments/:idComment',
+                        {idVideo: video._id , idComment: comment._id},
+                        {'update': { method:'PUT' }} //select the RESTful method
+                    );
+
+        var CommentInstance = new Comment();
+        CommentInstance.comment = $scope.currentComment.comment;//update comment
+
+        Comment.update({ _id:comment._id }, CommentInstance , function(instance){
+
+            $scope.isOpen[$index] = false; //close popover
+        });
+
+    }
+    
+    //save new comment
+    $scope.save = function(comment , video){
+        
+        console.dir(comment , video)
+
+        var Comment = $resource('http://localhost:8080/api_videos/:idVideo/comments',{idVideo: video._id});
+        var CommentInstance = new Comment();
+
+        //fill the comment instance
+        CommentInstance.comment = comment.comment;
+        CommentInstance._creator = $rootScope.user._id;
+        CommentInstance._video = video._id;
+
+
+        Comment.save(CommentInstance , function(commentObj){
+
+            if(CommentInstance){
+
+                //update view
+                if($scope.comments){
+
+                    //inject username in real time
+                    var comment = {};
+                    comment.comment = commentObj.comment;
+                    comment._id = commentObj._id;
+                    comment._creator = {};
+                    comment._creator._id = $rootScope.user._id;
+                    comment._creator.username = $rootScope.user.username;
+                    $scope.comments.push(comment);
+
+                    //reset the form
+                    $scope.comment = {};
+                    
+                    //close modal
+                    $scope.closeModal();
+                }
+            }
+        })
+    }
+})
+
+.controller('RegisterCTRL', function($scope , $state, $resource , $ionicSideMenuDelegate) {
+    
+    if($ionicSideMenuDelegate.showBackButton) $ionicSideMenuDelegate.showBackButton(true)
   
+    $scope.close = function(){
+        $state.go("videos")
+    }
+    
+    //register new user
+    $scope.save = function(user){
+        
+        var User = $resource('http://localhost:8080/signup/');
+        
+        var UserInstance = new User();
+        
+        UserInstance.username = user.name;
+        UserInstance.email= user.email;
+        UserInstance.password = user.password;
+        
+        //try update the server and get the response
+        User.save(UserInstance)
+        .$promise
+        .then(
+            function(value){
+                $scope.errorRegister = null;
+                
+                $state.go("videos");//go back
+            },//sucess
+            function(error){
+                $scope.errorRegister = error;
+            }//error
+        )
+    }
+})
+
+.controller('AddVideoCTRL', function($rootScope , $scope , $state , $resource, $ionicSideMenuDelegate) {
+    
+    if($ionicSideMenuDelegate.showBackButton) $ionicSideMenuDelegate.showBackButton(true);
+    
     $scope.closeModal = function(){
         $rootScope.modal.hide();
     }
+    
+    //save the video instance and update view
+    $scope.submit = function(form){
+        
+        $ionicSideMenuDelegate.toggleRight();
+        
+        $rootScope.modal.hide();
+
+        var Video = $resource('http://localhost:8080/api_videos/');
+
+        var VideoInstance = new Video();
+        VideoInstance.description = form.description;
+        VideoInstance.title = form.title;
+        VideoInstance.url = form.url;
+        
+
+        VideoInstance._author = $rootScope.user._id;
+
+        //save video instance
+        Video.save(VideoInstance , function(video){
+
+            if(video){
+
+                //update view
+                if($rootScope.videos){
+                    
+                    $scope.video = {};
+
+                    var path = video.url.split('?v=');
+                    var thumb = 'http://img.youtube.com/vi/'
+                        + path[1] 
+                        + '/'
+                        + parseInt(Math.random()*4)
+                        + '.jpg';
+
+                    //set the video author
+                    video.thumb = thumb;
+                    
+                    console.dir(video)
+
+                    $rootScope.videos.push(video);
+                }
+            }
+            
+        })
+
+    }
+
 })
 
 
-.controller('LoginCTRL', function($rootScope , $scope , $state , $resource) {
+.controller('LoginCTRL', function($rootScope , $scope , $state , $resource, $ionicSideMenuDelegate) {
+    if($ionicSideMenuDelegate.showBackButton) $ionicSideMenuDelegate.showBackButton(true);
     
     $scope.user = {};
     
@@ -58,10 +242,21 @@ angular.module('starter.controllers', [])
             }//error
         )
     }
+    
+    $scope.cancel = function(){
+        $scope.user = {};
+        $state.go("videos");
+    }
 })
 
-.controller('VideosCTRL', function($rootScope , $scope , $state , $resource , $ionicSideMenuDelegate , $ionicModal) {
+.controller('VideosCTRL', function($rootScope , $scope , $state , $resource , $ionicSideMenuDelegate , $ionicModal , $location , $ionicNavBarDelegate) {
     
+    
+    
+    //hide back button
+    if($ionicSideMenuDelegate.showBackButton) $ionicNavBarDelegate.showBackButton(false);
+    
+    //modal instance
     $ionicModal.fromTemplateUrl('templates/addvideo.html', {
         scope: $scope,
         animation: 'slide-in-up'
@@ -144,13 +339,81 @@ angular.module('starter.controllers', [])
       isLoged();
 })
 
-.controller('VideoCTRL', function($rootScope , $scope , $state , $resource , $stateParams , $sce , $document) {
+.controller('VideoCTRL', function($rootScope , $scope , $state , $resource , $stateParams , $sce , $document, $ionicModal) {
     
     $scope.status = {};
     
     $scope.status.isOpen = false;
     
-    console.log($stateParams );
+    $scope.render_class = "ion-ios-arrow-down";
+    $scope.render_down = "ion-ios-arrow-down";
+    $scope.render_up = "ion-ios-arrow-up";
+    $scope.isRender = true;
+    
+    
+    
+    //remove comment
+    //delete the comment
+    $scope.deleteComment = function(comment , video){
+        var Comment = 
+        $resource('http://localhost:8080/api_videos/:idVideo/comments/:idComment')
+        .delete({idVideo: video._id, idComment: comment._id},
+            function(err,response){
+                if(err) console.log(err)
+
+                if(response){
+
+                    var index = $scope.comments.indexOf(comment);
+
+                    if(index > -1){
+                        $scope.comments.splice(index, 1);
+                    } 
+                }
+            }
+        );
+
+    }
+    
+    
+    //comment modal instance
+    $ionicModal.fromTemplateUrl('templates/comment.html', {
+        scope: $scope,
+        animation: 'animated zoomInDown',
+        hideDelay:92
+    }).then(function(modal) {
+        $scope.modalComment = modal;
+        $rootScope.modalComment = modal;
+    });
+    
+    //edit modal instance
+    $ionicModal.fromTemplateUrl('templates/edit.html', {
+        scope: $scope,
+        animation: 'animated jello',
+        hideDelay:92
+    }).then(function(modal) {
+        $scope.modalEdit = modal;
+        $rootScope.modalEdit = modal;
+    });
+    
+    
+    //edit modal open
+    $scope.openModalEdit = function(currentComment){
+    	$scope.modalEdit.show();
+    	
+    	$rootScope.currentComment = currentComment;
+    }
+    
+    $scope.closeModalEdit = function(){
+    	$scope.modalEdit.hide();
+    }
+    
+    $scope.openModal = function(){
+        $scope.modalComment.show();
+    }
+    
+    $scope.closeModal = function() {
+        $scope.modalComment.hide();
+    };
     
     //load current video
     function currentVideo(){
@@ -206,6 +469,10 @@ angular.module('starter.controllers', [])
     $scope.toggle = function(event){
         event.preventDefault();
         $scope.status.isOpen = !$scope.status.isOpen;
+        
+        $scope.isRender = !$scope.isRender;
+        
+        $scope.render_class = ($scope.isRender) ? $scope.render_down : $scope.render_up;
     }
     
 });

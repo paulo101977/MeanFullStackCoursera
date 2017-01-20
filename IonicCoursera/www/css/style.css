@@ -49,7 +49,7 @@
 }
 
 input[type=search]{
-    height: 100%;
+    height: inherit;
     background: #eee;
 }
 
@@ -60,4 +60,26 @@ input[type=search]{
 
 button[disabled]{
     opacity: 0.5;
+}
+
+.video-comment{
+    display: block;
+    align-items: center;
+    height: 0px;
+}
+
+.comment-button{
+    line-height: 0;
+}
+
+textarea {
+    resize: none;
+}
+
+.right-content{
+    float: right;
+}
+
+.panel-collapse{
+    transition: height 1s;
 }

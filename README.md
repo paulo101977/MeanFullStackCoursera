@@ -5,8 +5,5 @@ version 0.15.1.
 
 ## Build & development
 
-Run `grunt` for building and `grunt serve` for preview.
+Run gulp serve for building and running. The project is serve in localhost:8080.
 
-## Testing
-
-Running `grunt test` will run the unit tests with karma.

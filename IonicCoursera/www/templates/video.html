@@ -22,9 +22,12 @@
                 Start play
             </a>
               
-            <p class="video">
-              <a href="#" ng-click="toggle($event)" class="subdued">{{comments.length}} Comments</a>
-              <button class="icon ion-plus-circled"></button>
+            <p class="video video-comment">
+              <a href="#" ng-click="toggle($event)" class="subdued">
+                  <i class="icon {{render_class}}"></i>  
+                  {{comments.length}} Comments
+                </a>
+              <button ng-click="openModal()" class="icon ion-plus-circled comment-button right-content">Add</button>
             </p>
           </div>
             
@@ -42,8 +45,8 @@
                                 <b>{{comment._creator.username}}</b>, commented:
                                 <p>{{comment.comment}}</p>
                             </div>
-                            <button class="icon ion-edit"></button>
-                            <button class="icon ion-close-circled"></button>
+                            <button ng-disabled="testUser()" ng-click="openModalEdit(comment)" class="icon ion-edit"></button>
+                            <button ng-disabled="testUser()" ng-click="deleteComment(comment , video)" class="icon ion-close-circled"></button>
                         </div>
                     </div>
                 </div>

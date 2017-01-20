@@ -1,0 +1,21 @@
+<ion-modal-view ng-controller="EditCTRL">
+    <ion-header-bar>
+      <h1 class="title">Edit comment</h1>
+    </ion-header-bar>
+    <ion-content>
+      <div class="list">
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Comment</span>
+                <textarea ng-model="currentCommment.comment" rows="4" type="text" placeholder="Comment"></textarea>
+            </label>
+            <div class="button-bar">
+                <button ng-click="saveEdit(currentCommment)" class="button icon-left ion-checkmark-round button-stable">
+                  Submit
+                </button>
+                <button ng-click="closeModalEdit()" class="button icon-left ion-close-round button-stable">
+                  Cancel
+                </button>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>
