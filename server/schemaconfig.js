@@ -5,29 +5,21 @@ var mongoose = require('mongoose');
 
 //video schema
 var VideoSchema = require('./model/video.js')
-var Video = mongoose.model('Video', VideoSchema);
+var Video = mongoose.model('VideoTable', VideoSchema);
 
 //user schema
 var UserSchema = require('./model/user.js')
-var User = mongoose.model('User', UserSchema);
+var User = mongoose.model('UserTable', UserSchema);
 
 //Comment schema
 var CommentSchema = require('./model/comment.js')
-var Comment = mongoose.model('Comment', CommentSchema);
+var Comment = mongoose.model('CommentTable', CommentSchema);
+
+//database uri
 var uri = 'mongodb://paulo101977:3007paulo1977@ds019076.mlab.com:19076/courserameteor';
-var username = "paulo101977";
-var password = "3007paulo1977";
 
 
-/*var opt = {
-        user: username,
-        pass: password,
-        auth: {
-            authdb: 'admin'
-        }
-    };*/
 
-//var connection = mongoose.createConnection(config.database.host, 'mydatabase', config.database.port, opt);
 
 //exports mongoose configs
 module.exports = {
