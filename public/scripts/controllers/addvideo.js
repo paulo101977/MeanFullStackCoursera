@@ -28,7 +28,7 @@ app
             VideoInstance._author = $rootScope.user._id;
             
             //save video instance
-            Video.save(VideoInstance , function(){
+            Video.save(VideoInstance , function(newVideo){
                 
                 if(VideoInstance){
 
@@ -44,6 +44,7 @@ app
 
                         //set the video author
                         VideoInstance.thumb = thumb;
+                        VideoInstance._id = newVideo._id;
                         
                         $rootScope.videos.push(VideoInstance);
                     }
