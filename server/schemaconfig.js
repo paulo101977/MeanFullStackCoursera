@@ -5,15 +5,15 @@ var mongoose = require('mongoose');
 
 //video schema
 var VideoSchema = require('./model/video.js')
-var Video = mongoose.model('VideoTable', VideoSchema);
+var Video = mongoose.model('Video', VideoSchema);
 
 //user schema
 var UserSchema = require('./model/user.js')
-var User = mongoose.model('UserTable', UserSchema);
+var User = mongoose.model('User', UserSchema);
 
 //Comment schema
 var CommentSchema = require('./model/comment.js')
-var Comment = mongoose.model('CommentTable', CommentSchema);
+var Comment = mongoose.model('Comment', CommentSchema);
 
 //database uri
 var uri = 'mongodb://paulo101977:3007paulo1977@ds019076.mlab.com:19076/courserameteor';
