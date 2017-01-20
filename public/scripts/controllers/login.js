@@ -32,7 +32,7 @@ app
         $scope.vSubmit = false; //disable button
         console.log(user)
         
-        var User = $resource('http://localhost:8080/login/');
+        var User = $resource('/login/');
         
         var UserInstance = new User();
         
@@ -69,7 +69,7 @@ app
     $scope.save = function(user){
         $scope.vRegister = false;//disable button
         
-        var User = $resource('http://localhost:8080/signup/');
+        var User = $resource('/signup/');
         
         var UserInstance = new User();
         

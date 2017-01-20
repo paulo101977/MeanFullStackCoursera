@@ -42,7 +42,7 @@ app
 
       //get all videos
       function getAllVideos(){
-          var promise = $resource('http://localhost:8080/api_videos/');
+          var promise = $resource('/api_videos/');
           var entry = promise.query(function(){
               $scope.videos = entry;
               

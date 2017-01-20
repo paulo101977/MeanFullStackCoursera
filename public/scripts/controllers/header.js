@@ -79,7 +79,7 @@ app
           $rootScope.logged = false;
           
           //logout in the server
-          var promise = $resource('http://localhost:8080/logout/');
+          var promise = $resource('/logout/');
           promise.query(function(){});
       }
       

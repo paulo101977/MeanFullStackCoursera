@@ -19,7 +19,7 @@ app
         $scope.put = function($index , comment , video){
             
             var Comment = 
-                $resource('http://localhost:8080/api_videos/:idVideo/comments/:idComment',
+                $resource('/api_videos/:idVideo/comments/:idComment',
                             {idVideo: video._id , idComment: comment._id},
                             {'update': { method:'PUT' }} //select the RESTful method
                         );
@@ -47,7 +47,7 @@ app
         //save new comment
         $scope.save = function(form , video){
             
-            var Comment = $resource('http://localhost:8080/api_videos/:idVideo/comments',{idVideo: video._id});
+            var Comment = $resource('/api_videos/:idVideo/comments',{idVideo: video._id});
             var CommentInstance = new Comment();
             
             //fill the comment instance
@@ -83,7 +83,7 @@ app
         //delete the comment
         $scope.delete = function(comment , video){
             var Comment = 
-            $resource('http://localhost:8080/api_videos/:idVideo/comments/:idComment')
+            $resource('/api_videos/:idVideo/comments/:idComment')
             .delete({idVideo: video._id, idComment: comment._id},
                 function(err,response){
                     if(err) console.log(err)

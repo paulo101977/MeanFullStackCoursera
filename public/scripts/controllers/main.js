@@ -5,7 +5,7 @@ app
   .controller('MainCtrl',[ '$rootScope' , '$scope' , '$resource' , function ($rootScope , $scope , $resource){
       
       function isLoged(){
-         var promise = $resource('http://localhost:8080/isloged/');
+         var promise = $resource('/isloged/');
          var entry = promise.query(function(){
              //after load request
              if(entry){

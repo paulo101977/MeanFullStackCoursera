@@ -18,7 +18,7 @@ app
         $scope.submit = function(form){
             $uibModalInstance.dismiss();
             
-            var Video = $resource('http://localhost:8080/api_videos/');
+            var Video = $resource('/api_videos/');
             
             var VideoInstance = new Video();
             VideoInstance.description = form.description;
