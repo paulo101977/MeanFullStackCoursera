@@ -22,7 +22,7 @@ module.exports = {
     Comment: Comment,
     mongoose: mongoose,
     connect: function(){
-        mongoose.connect('mongodb://localhost/videos');
+        mongoose.connect('mongodb://paulo101977:3007paulo1977>@ds019076.mlab.com:19076/courserameteor');
     },
     connection: mongoose.connection
 }
