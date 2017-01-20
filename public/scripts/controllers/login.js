@@ -84,6 +84,8 @@ app
             function(value){
                 $scope.errorRegister = null;
                 
+                $rootScope.logged = true;//is logged
+                
                 $uibModalInstance.dismiss();//dismiss the modal
             },//sucess
             function(error){
