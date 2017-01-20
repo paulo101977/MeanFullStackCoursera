@@ -14,6 +14,7 @@ var User = mongoose.model('User', UserSchema);
 //Comment schema
 var CommentSchema = require('./model/comment.js')
 var Comment = mongoose.model('Comment', CommentSchema);
+var uri = 'mongodb://paulo101977:3007paulo1977>@ds019076.mlab.com:19076/courserameteor';
 
 //exports mongoose configs
 module.exports = {
@@ -22,7 +23,9 @@ module.exports = {
     Comment: Comment,
     mongoose: mongoose,
     connect: function(){
-        mongoose.connect('mongodb://paulo101977:3007paulo1977>@ds019076.mlab.com:19076/courserameteor');
+        mongoose.connect(uri, function(err){
+        	console.log(err)
+        });
     },
     connection: mongoose.connection
-}
+} 
