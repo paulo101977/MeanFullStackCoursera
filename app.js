@@ -77,7 +77,7 @@ app.use('/sucess',require('./server/routes/sucess.js'))
 // **************** END routes **********************
 
 //listen to port 8080
-app.listen(process.env.PORT, function () {
+var server = app.listen(process.env.PORT, function () {
 	var port = server.address().port;
     console.log("App now running on port", port);
 });
